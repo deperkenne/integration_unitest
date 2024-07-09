@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.uniba.wiai.dsg.ajp.assignment3.IntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-09T11:37:42" hostname="DESKTOP-6VK61R6" time="0.131">
+  <properties/>
+  <testcase name="modifyGuscheinWertCorrectly()" classname="de.uniba.wiai.dsg.ajp.assignment3.IntegrationTest" time="0.131"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
