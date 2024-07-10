@@ -3,6 +3,8 @@ package de.uniba.wiai.dsg.ajp.assignment3;
 import java.util.LinkedList;
 import java.util.List;
 
+
+
 public class Customer {
 
 	private String name;
@@ -12,6 +14,15 @@ public class Customer {
 	private List<Rental> rentals = new LinkedList<Rental>();
 
 	private Gutschein gutschein;
+
+	/**
+	 *
+	 * @param name
+	 *            the name of the new {@link Customer}. Must not be <code>null</code>
+	 *            .or empty
+	 * @param gutschein
+	 *            the gutschein of new {@link Customer}. May be <code>null</code>
+	 */
 
 	public Customer(String name,Gutschein gutschein) {
 		super();
@@ -39,9 +50,26 @@ public class Customer {
 		return rentals;
 	}
 
+	/**
+	 *
+	 * @param rentals
+	 *               the rentals Must not be <code>null</code>
+	 */
 	public void setRentals(List<Rental> rentals) {
 		this.rentals = rentals;
 	}
+
+	/**
+	 * return the customer's invoice for the rental films.
+	 * <p>
+	 * Postcondition:
+	 * <ul>
+	 * <li>the invoice must contain the amount before the gutschein is applied if only if the customer has a valid guscheint.</li>
+	 * <li>the gutschein code and the gutschein amount must appear on the invoice if the customer has a gutschein</li>
+	 * <li>the invoice must be in text form</li>
+	 * </ul>
+
+	 */
 
 	public String statement() throws MovieExption, RentalException {
 		String result = "Rental Record for " + getName() + "\n";
@@ -73,7 +101,16 @@ public class Customer {
 		return result;
 	}
 
+	/**
+	 * return the customer's invoice for the rental films in html.
+	 * <p>
+	 * Postcondition:
+	 * <ul>
+	 * <li>the invoice must contain the amount before the gutschein is applied if only if the customer has a valid guscheint.</li>
+	 * <li>the gutschein code and the gutschein amount must appear on the invoice if the customer has a gutschein</li>
+	 * </ul>
 
+	 */
 	public String htmlStatement() throws MovieExption, RentalException {
 		String result = "<h1>Rentals for <em>" + getName() + "</em></h1>\n<p>";
 
@@ -118,6 +155,22 @@ public class Customer {
 		return result;
 	}
 
+	/**
+	 * return the total amount of the customer's invoice.
+	 * <p>
+	 * Postcondition:
+	 * <ul>
+	 * <li>the total amount of the invoice must be equal to zero if the gutschein amount is greater.</li>
+	 * <li> the total amount of the invoice must never be negative.</li>
+	 * </ul>
+	 *
+	 *Example
+	 * totalamount = 20 and gutscheinWert = 25 // in this case totalamount = 0 automatically
+	 * totalamount = 20 and gutscheinWert = 15 // in this case we do totalamount - gutscheinWert
+	 *
+
+	 */
+
 	double getTotalCharge() throws MovieExption, RentalException {
 		double result = 0;
 
@@ -136,6 +189,15 @@ public class Customer {
 		return result;
 	}
 
+
+	/**
+	 * return the number of FrequentRenterPoints of the Customer.
+	 * <p>
+	 * Postcondition:
+	 * <ul>
+	 * <li> if the customer contains a gutschein then its currentTotalFrequentRenterPoints=previousTotalFrequentRenterPoints +3 > previousTotalFrequentRenterPoints .</li>
+	 * </ul>
+	 */
 	int getTotalFrequentRenterPoints() throws MovieExption, RentalException {
 		int result = 0;
 
