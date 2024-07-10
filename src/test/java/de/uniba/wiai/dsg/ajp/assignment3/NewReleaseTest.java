@@ -22,61 +22,52 @@ public class NewReleaseTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints ={1,2,3})
-    public void getChargeCalledCorrectly(int value) throws RentalException, MovieExption {
-        //when
-        changeValue(value);
-        double charge =  newReleasePrice.getCharge(value);
-
-        //then
-        assertEquals(currentValue,charge);
-
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints={0,-1,-2})
-    public void getChargeNoCalledCorrectly(int value){
-
-        //when and then
-        assertThrows(MovieExption.class,()->newReleasePrice.getCharge(value));
-
-    }
-
-
-    @Test
-    public void getPriceCodeReturnCorrectPrice(){
-
-        //when
-        int priceCode =  newReleasePrice.getPriceCode();
-
-        //then
-        assertEquals(1,priceCode);
-
-
-    }
-
-    @ParameterizedTest
-    @ValueSource(ints ={1,2,3})
-    public void getFrenquentPointCalledCorrectly(int value) throws RentalException, MovieExption {
-
-        //when
-        changeCurrentValue(value);
-        double frequentPoint = newReleasePrice.getFrequentRenterPoints(value);
+    @ValueSource(ints = {1, 2, 3})
+    public void testGetChargeCalledCorrectly(int value) throws RentalException, MovieExption {
+        // when
+        updateChargeValue(value);
+        double charge = newReleasePrice.getCharge(value);
 
         // then
-        assertEquals(currentValue,frequentPoint);
+        assertEquals(currentValue, charge);
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, -2})
+    public void testGetChargeThrowsExceptionForInvalidValues(int value) {
+        // when and then
+        assertThrows(MovieExption.class, () -> newReleasePrice.getCharge(value));
+    }
+
+    @Test
+    public void testGetPriceCodeReturnsCorrectPrice() {
+        // when
+        int priceCode = newReleasePrice.getPriceCode();
+
+        // then
+        assertEquals(1, priceCode);
     }
 
     @ParameterizedTest
-    @ValueSource(ints={0,-1,-2})
-    public void getFrequentPointNoCalledCorrectly(int value){
+    @ValueSource(ints = {1, 2, 3})
+    public void testGetFrequentRenterPointsCalledCorrectly(int value) throws RentalException, MovieExption {
+        // when
+        updateFrequentRenterPoints(value);
+        double frequentPoints = newReleasePrice.getFrequentRenterPoints(value);
 
-        //when and then
-        assertThrows(MovieExption.class,()->newReleasePrice.getFrequentRenterPoints(value));
-
+        // then
+        assertEquals(currentValue, frequentPoints);
     }
 
-    public void changeCurrentValue(int value) {
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1, -2})
+    public void testGetFrequentRenterPointsThrowsExceptionForInvalidValues(int value) {
+        // when and then
+        assertThrows(MovieExption.class, () -> newReleasePrice.getFrequentRenterPoints(value));
+    }
+
+    private void updateFrequentRenterPoints(int value) {
         switch (value) {
             case 1:
                 currentValue = 1.0;
@@ -86,10 +77,12 @@ public class NewReleaseTest {
                 break;
             case 3:
                 currentValue = 2.0;
+                break;
         }
     }
-                public void changeValue(int value){
-        switch (value){
+
+    private void updateChargeValue(int value) {
+        switch (value) {
             case 1:
                 currentValue = 3.0;
                 break;
@@ -98,7 +91,7 @@ public class NewReleaseTest {
                 break;
             case 3:
                 currentValue = 9.0;
-
+                break;
         }
     }
 

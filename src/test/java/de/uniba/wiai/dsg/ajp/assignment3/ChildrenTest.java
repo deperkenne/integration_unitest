@@ -22,49 +22,42 @@ public class ChildrenTest {
   }
 
     @ParameterizedTest
-    @MethodSource("argumentsList")
-    public void childrenTestCalledCorrectly(int value,double expected) throws RentalException, MovieExption {
-    //when
-    double charge = childrenPrice.getCharge(value);
+    @MethodSource("validRentalDaysAndExpectedCharges")
+    public void testChildrenPriceChargeWithValidDays(int rentalDays, double expectedCharge) throws RentalException, MovieExption {
+        // when
+        double charge = childrenPrice.getCharge(rentalDays);
 
-    // then
-    assertEquals(expected,charge);
-
+        // then
+        assertEquals(expectedCharge, charge);
     }
 
     @ParameterizedTest
-    @ValueSource(ints={0,-1,-2})
-    public void getChargeNoCalledCorrectly(int value){
-
-      //when and then
-        assertThrows(MovieExption.class,()->childrenPrice.getCharge(value));
-
+    @ValueSource(ints = {0, -1, -2})
+    public void testChildrenPriceChargeWithInvalidDays(int rentalDays) {
+        // when and then
+        assertThrows(MovieExption.class, () -> childrenPrice.getCharge(rentalDays));
     }
 
 
-
     @Test
-    public void getPriceCalledCorrectly(){
-      // when
-        int value = childrenPrice.getPriceCode();
-
-        // then
-        assertEquals(2,value);
-
-    }
-
-    @Test
-    public void getPriceCodeNotCalledCorrectly(){
-
-      int expected = 3;
+    public void testGetChildrenPriceCode() {
         // when
-        int value = childrenPrice.getPriceCode();
+        int priceCode = childrenPrice.getPriceCode();
 
         // then
-        assertTrue(expected != value);
-
-
+        assertEquals(2, priceCode);
     }
+
+    @Test
+    public void testGetChildrenPriceCodeMismatch() {
+        int unexpectedPriceCode = 3;
+        // when
+        int priceCode = childrenPrice.getPriceCode();
+
+        // then
+        assertTrue(unexpectedPriceCode != priceCode);
+    }
+
 
     public static List<Arguments> argumentsList(){
         return List.of(Arguments.of(2,1.5),Arguments.of(5,4.5));

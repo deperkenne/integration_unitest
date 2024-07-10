@@ -43,56 +43,46 @@ public class IntegrationTest {
     }
 
     @Test
-
-    public void getStatementCalledCorrectly() throws MovieExption, RentalException {
-
+    public void testStatementGeneratesCorrectOutput() throws MovieExption, RentalException {
         customerWithGutSchein.getRentals().add(rentalWitdaysEqual3);
         customerWithGutSchein.getRentals().add(rentalWithdaysEqual1);
 
         // when
-
-
         result = customerWithGutSchein.statement();
-        String expectedOutput =expectedOutputText();
+        String expectedOutput = expectedOutputText();
 
-
-        //given
-        assertEquals(expectedOutput,result);
+        // given
+        assertEquals(expectedOutput, result);
     }
-
     @Test
-    public void modifyGuscheinWertCorrectly() throws MovieExption, RentalException {
+    public void testModifyGutscheinWertUpdatesStatementCorrectly() throws MovieExption, RentalException {
         customerWithGutSchein.getRentals().add(rentalWitdaysEqual3);
         customerWithGutSchein.getRentals().add(rentalWithdaysEqual1);
         gutschein.setGetGutScheinWert(5);
-
-
 
         // when
         String result = customerWithGutSchein.statement();
 
         // then
         String currentExpectedOutput = expectedOutputTextWithModifyCouponValue();
-        assertEquals(currentExpectedOutput,result);
-
+        assertEquals(currentExpectedOutput, result);
     }
 
     @Test
-    public void getStatementHtmlCalledCorrectly() throws RentalException, MovieExption {
+    public void testHtmlStatementGeneratesCorrectOutput() throws RentalException, MovieExption {
         // given
         customerWithGutSchein.getRentals().add(rentalWitdaysEqual3);
         customerWithGutSchein.getRentals().add(rentalWithdaysEqual1);
 
-
         // when
-        String actuel = customerWithGutSchein.htmlStatement();
+        String actual = customerWithGutSchein.htmlStatement();
 
-        //then
+        // then
         String expectedOutputHtml = expectedOutputHtml(customerWithGutSchein.getName());
-        assertEquals(expectedOutputHtml,actuel);
-
-
+        assertEquals(expectedOutputHtml, actual);
     }
+
+
 
     public Customer createCustomer(String name, Gutschein gutschein){
         return new Customer(name,gutschein);

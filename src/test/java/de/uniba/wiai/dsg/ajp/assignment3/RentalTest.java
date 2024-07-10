@@ -23,46 +23,42 @@ public class RentalTest {
     }
 
     @Test
-    public void getMovieCallCorrectly() throws MovieExption, RentalException {
-        //  given
+    public void testGetMovieCalledCorrectly() throws MovieExption, RentalException {
+        // given
         sut = new Rental();
-        movieSetUp();
+        setupMockMovie();
         sut.setMovie(mockMovie);
 
         // when SUT and then
-        assertEquals(mockMovie,sut.getMovie());
-
+        assertEquals(mockMovie, sut.getMovie());
     }
 
 
 
     @Test
-    public void getMovieNotCallCorrectly() throws MovieExption {
+    public void testSetMovieThrowsExceptionForNullMovie() throws MovieExption {
         mockMovie = null;
         // when SUT and then
-        assertThrows(MovieExption.class , ()-> sut.setMovie(mockMovie));
-
+        assertThrows(MovieExption.class, () -> sut.setMovie(mockMovie));
     }
 
     @Test
-    public void getDaysRentedCalledCorrectly() throws MovieExption {
-
-        //when SUt
+    public void testGetDaysRentedCalledCorrectly() throws MovieExption {
+        // when SUT
         sut.setDaysRented(1);
         int days = sut.getDaysRented();
 
-        //then
-
-        assertEquals(1 ,days);
+        // then
+        assertEquals(1, days);
     }
 
 
     @Test
-    public void getChargeCalledCorrectly() throws RentalException, MovieExption {
+    public void testGetChargeCalledCorrectly() throws RentalException, MovieExption {
 
 
         sut.setDaysRented(1);
-        movieSetUp();
+        setupMockMovie();
         sut.setMovie(mockMovie);
 
         //when SUt
@@ -76,10 +72,10 @@ public class RentalTest {
     }
 
     @Test
-    public void getFrequentPointRentedCalledCorrectly() throws RentalException, MovieExption {
+    public void testGetFrequentPointRentedCalledCorrectly() throws RentalException, MovieExption {
 
         sut.setDaysRented(1);
-        movieSetUp();
+        setupMockMovie();
         sut.setMovie(mockMovie);
 
         //when SUT
@@ -94,7 +90,7 @@ public class RentalTest {
 
 
 
-    public void movieSetUp() throws RentalException, MovieExption {
+    public void setupMockMovie() throws RentalException, MovieExption {
         when(mockMovie.getTitle()).thenReturn("BlackPanthere");
         when(mockMovie.getImageQuality()).thenReturn(ImageQuality.HD);
         when(mockMovie.getPriceCode()).thenReturn(1);

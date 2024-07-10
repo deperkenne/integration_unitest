@@ -16,7 +16,7 @@ public class CouponTest {
     }
 
     @Test
-    public void getGuscheinCodeCalledCorrectly(){
+    public void testGetGuscheinCodeCalledCorrectly(){
         //when
         String code = gutschein.getGutScheinCOde();
 

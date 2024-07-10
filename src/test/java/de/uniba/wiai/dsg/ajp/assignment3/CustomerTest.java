@@ -44,8 +44,7 @@ public class CustomerTest {
 
 
     @Test
-    public void getFrequentPointCalledCorrectly() throws MovieExption, RentalException {
-
+    public void testCalculateFrequentRenterPointsWithoutCoupon() throws MovieExption, RentalException {
         // mes attentes Mock configuration
         when(sut.getRentals().getFirst().getFrequentRenterPoints()).thenReturn(2);
         when(sut.getRentals().get(1).getFrequentRenterPoints()).thenReturn(3);
@@ -54,9 +53,9 @@ public class CustomerTest {
         int total = sut.getTotalFrequentRenterPoints();
 
         // then
-
-        assertEquals(8,total);
+        assertEquals(8, total);
     }
+
 
     @Test
     public void getFrequentPointCalledCorrectlyWithGuschein() throws MovieExption, RentalException {
@@ -76,63 +75,47 @@ public class CustomerTest {
 
     }
     @Test
-    public void getTotalChargeGiveZeroWithGuscheinPasstTotalWert() throws MovieExption, RentalException {
-        //given
-
-
+    public void testTotalChargeIsZeroWithCouponCoveringTotal() throws MovieExption, RentalException {
         // mes attentes Mock configuration
         when(sut1.getRentals().getFirst().getCharge()).thenReturn(2.0);
         when(sut1.getRentals().get(1).getCharge()).thenReturn(3.0);
 
-
-        //when
-
+        // when
         double total = sut1.getTotalCharge();
 
-        //then
-
-        assertEquals(0.0,total);
-        assertEquals("BlackPanthere",sut1.getRentals().getFirst().getMovie().getTitle());
+        // then
+        assertEquals(0.0, total);
+        assertEquals("BlackPanthere", sut1.getRentals().getFirst().getMovie().getTitle());
     }
 
-    @Test
-    public void getTotalChargeCalledCorrectlyWithNoGutSchein() throws RentalException, MovieExption {
 
+    @Test
+    public void testCalculateTotalChargeWithoutCoupon() throws RentalException, MovieExption {
         // mes attentes Mock configuration
         when(sut2.getRentals().getFirst().getCharge()).thenReturn(2.0);
         when(sut2.getRentals().get(1).getCharge()).thenReturn(3.0);
 
-
-        //when
-
+        // when
         double total = sut2.getTotalCharge();
 
-        //then
-
-        assertEquals(5.0,total);
-
-
+        // then
+        assertEquals(5.0, total);
     }
+
 
     @Test
-    public void getChargeCalledCorrectly() throws RentalException, MovieExption {
-
+    public void testCalculateTotalCharge() throws RentalException, MovieExption {
         // mes attentes Mock configuration
         when(sut.getRentals().getFirst().getCharge()).thenReturn(2.0);
-       when(sut.getRentals().get(1).getCharge()).thenReturn(3.0);
+        when(sut.getRentals().get(1).getCharge()).thenReturn(3.0);
 
-
-        //when
-
+        // when
         double total = sut.getTotalCharge();
 
-        //then
-        assertEquals(2,total);
-        assertEquals(movie1,sut.getRentals().getFirst().getMovie());
-
-
+        // then
+        assertEquals(2.0, total);
+        assertEquals(movie1, sut.getRentals().getFirst().getMovie());
     }
-
 
 
     public void setUpCustomer() throws MovieExption, RentalException {

@@ -28,63 +28,54 @@ public class MovieTest {
 
 
     @Test
-    public void getCorrectPriceCodeMovie(){
-
-        // configure  Mock for getPriceCode lorsqu'on l'appel il renvoie toujours 1
+    public void testGetPriceCodeReturnsCorrectValue() {
+        // configure Mock for getPriceCode to always return 1
         given(pricecodeMock.getPriceCode()).willReturn(1);
 
         // when SUT
-        int newpriceCode = movie.getPriceCode(); //
+        int newPriceCode = movie.getPriceCode();
 
         // then
-        assertEquals(1,newpriceCode);
-
+        assertEquals(1, newPriceCode);
     }
 
 
-
     @ParameterizedTest
-    @MethodSource("getChargeList")
-    public void getChargeCalledCorrectly(ImageQuality imageQuality,double configValue,int daysRented,double expected) throws MovieExption, RentalException {
-        movie = new Movie("Bal",pricecodeMock,imageQuality);
-        //configuration du mock pour methode getCharge()
+    @MethodSource("provideChargeTestArguments")
+    public void testGetChargeReturnsExpectedValue(ImageQuality imageQuality, double configValue, int daysRented, double expected) throws MovieExption, RentalException {
+        movie = new Movie("Bal", pricecodeMock, imageQuality);
+        // configuration du mock pour la méthode getCharge()
         when(pricecodeMock.getCharge(-1)).thenThrow(new IllegalArgumentException());
         when(pricecodeMock.getCharge(daysRented)).thenReturn(configValue);
 
-        //when SUT
-        Executable executable = ()-> movie.getCharge(-1);
+        // when SUT
+        Executable executable = () -> movie.getCharge(-1);
         double getCharge = movie.getCharge(daysRented);
 
-        //then
-        assertThrows(IllegalArgumentException.class,executable);
+        // then
+        assertThrows(IllegalArgumentException.class, executable);
         verify(pricecodeMock).getCharge(daysRented);
-        assertEquals(expected,getCharge);
-
-
+        assertEquals(expected, getCharge);
     }
-
 
 
     @ParameterizedTest
-    @ValueSource(ints={0,-1,-2})
-
-    public void getCorrectFrequentPoint(int value) throws MovieExption, RentalException {
-        //configuration du mock
+    @ValueSource(ints = {0, -1, -2})
+    public void testGetFrequentRenterPointsThrowsExceptionForInvalidValues(int value) throws MovieExption, RentalException {
+        // configuration du mock
         when(pricecodeMock.getFrequentRenterPoints(value)).thenThrow(new IllegalArgumentException());
-       when(pricecodeMock.getFrequentRenterPoints(2)).thenReturn(1);
+        when(pricecodeMock.getFrequentRenterPoints(2)).thenReturn(1);
 
-        //when and SUT
+        // when and SUT
         Executable executable = () -> movie.getFrequentRenterPoints(value);
         int frequentRenterPoints = movie.getFrequentRenterPoints(2);
 
-        //then
-        assertEquals(1,frequentRenterPoints);
-        assertThrows(IllegalArgumentException.class,executable);
-
+        // then
+        assertEquals(1, frequentRenterPoints);
+        assertThrows(IllegalArgumentException.class, executable);
     }
 
-
-    public static  List<Arguments> movie(){
+    public static  List<Arguments> provideMovies(){
 
         return List.of(Arguments.of("Black",1,ImageQuality.HD),
                 Arguments.of("Dejavue",2,ImageQuality.SD)
@@ -92,7 +83,7 @@ public class MovieTest {
 
     }
 
-    public static List<Arguments> getChargeList(){
+    public static List<Arguments> provideChargeTestArguments(){
         return List.of(Arguments.of(ImageQuality.SD,2.0,2,2),
                 Arguments.of(ImageQuality.HD,3.5,2,5.5),
                 Arguments.of(ImageQuality.K4,4.0,2,8.0));

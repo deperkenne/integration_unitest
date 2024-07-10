@@ -27,37 +27,38 @@ public class ExceptionTest {
         customerMock = mock(Customer.class);
 
     }
+
+
     @ParameterizedTest
     @MethodSource("argumentsList")
-    public void validateCalledCorrectly(String title,ImageQuality imageQuality) throws MovieExption {
-        movieSetUp(title,imageQuality);
+    public void testValidateThrowsExceptionForInvalidMovies(String title, ImageQuality imageQuality) throws MovieExption {
+        movieSetUp(title, imageQuality);
         // SUT when
-         assertThrows(MovieExption.class,()-> sut.validate());
+        assertThrows(MovieExption.class, () -> sut.validate());
     }
 
-@ParameterizedTest
-@ValueSource(ints={1,0,-1})
-    public void giveExeptionWhenMovieNull(int param) throws MovieExption {
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 0, -1})
+    public void testValidateRentalThrowsExceptionForNullMovie(int param) throws MovieExption {
         String test = "black";
         ImageQuality imageQuality = ImageQuality.K4;
-        SetMovieNull(param,test,imageQuality);
+        setMovieNull(param, test, imageQuality);
 
-        //when SUT and Then
-
-        assertThrows(MovieExption.class,()->sut.validateRental());
-
+        // when SUT and Then
+        assertThrows(MovieExption.class, () -> sut.validateRental());
     }
 
     @Test
-    public void customerInputRejectExceptionCorrectly(){
+    public void testValidateCustomerInputThrowsExceptionForInvalidInput() {
         // given
         setUpCustomer();
 
         // when and then
-        assertThrows(MovieExption.class,()->sut.validateCustomerInput());
-
-
+        assertThrows(MovieExption.class, () -> sut.validateCustomerInput());
     }
+
+
 
     public void setUpCustomer(){
         // configure Mock
@@ -76,7 +77,7 @@ public class ExceptionTest {
 
     }
 
-    public void SetMovieNull(int param,String test,ImageQuality imageQuality) throws MovieExption {
+    public void setMovieNull(int param,String test,ImageQuality imageQuality) throws MovieExption {
 
         if(param > 0){
             movieMock = null;

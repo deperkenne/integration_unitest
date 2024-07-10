@@ -2,10 +2,12 @@ package de.uniba.wiai.dsg.ajp.assignment3;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LowBudGetTest {
 
@@ -21,31 +23,36 @@ public class LowBudGetTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints ={1,2,3})
-    public void getChargeCalledCorrectly(int value) throws RentalException, MovieExption {
-        //when
-        changeValue(value);
+    @ValueSource(ints = {0, -1, -2})
+    public void getChargeThrowsExceptionForInvalidValues(int value) {
+        // when
+        Executable executable = () -> lowBudgetPrice.getCharge(value);
+
+        // then
+        assertThrows(MovieExption.class, executable);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    public void getChargeReturnsExpectedValueForValidValues(int value) throws RentalException, MovieExption {
+        // when
+        setCurrentValueBasedOnInput(value);
         double charge = lowBudgetPrice.getCharge(value);
 
-        //then
-        assertEquals(currentValue,charge);
-
+        // then
+        assertEquals(currentValue, charge);
     }
 
     @Test
-    public void getPriceCodeReturnCorrectPrice(){
-
-        //when
+    public void getPriceCodeReturnsCorrectValue() {
+        // when
         int priceCode = lowBudgetPrice.getPriceCode();
 
-        //then
-        assertEquals(3,priceCode);
-
-
+        // then
+        assertEquals(3, priceCode);
     }
-
-    public void changeValue(int value){
-        switch (value){
+    public void setCurrentValueBasedOnInput(int value) {
+        switch (value) {
             case 1:
                 currentValue = 0.5;
                 break;
@@ -56,7 +63,6 @@ public class LowBudGetTest {
                 currentValue = 1.5;
         }
     }
-
 
 
 }
